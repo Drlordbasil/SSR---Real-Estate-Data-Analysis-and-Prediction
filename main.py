@@ -22,19 +22,24 @@ df = pd.DataFrame(data)
 
 # Data Preprocessing
 # Clean and transform the data
+
+
 def preprocess_data(df):
     # Handle missing values
     df = df.dropna()
 
     # Outlier detection and removal (if applicable)
-    
+
     # Feature engineering (if applicable)
 
     return df
 
+
 df = preprocess_data(df)
 
 # Exploratory Data Analysis (EDA)
+
+
 def perform_eda(df):
     # Visualize the distribution of house prices
     sns.histplot(df['price'])
@@ -48,9 +53,12 @@ def perform_eda(df):
     plt.title('Correlation Heatmap')
     plt.show()
 
+
 perform_eda(df)
 
 # Feature Selection
+
+
 def feature_selection(df):
     # Perform feature selection using Recursive Feature Elimination or SelectKBest
     # Select the most influential features for predicting house prices
@@ -59,12 +67,16 @@ def feature_selection(df):
     y = df['price']
     return X, y
 
+
 X, y = feature_selection(df)
 
 # Model Training
+
+
 def train_model(X, y):
     # Split the data into training and testing sets
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=42)
 
     # Train a Linear Regression model
     model = LinearRegression()
@@ -76,9 +88,12 @@ def train_model(X, y):
 
     return model, X_test, y_test
 
+
 model, X_test, y_test = train_model(X, y)
 
 # Model Evaluation
+
+
 def evaluate_model(model, X_test, y_test):
     # Make predictions on the test set
     y_pred = model.predict(X_test)
@@ -89,12 +104,14 @@ def evaluate_model(model, X_test, y_test):
 
     return mse, mae
 
+
 mse, mae = evaluate_model(model, X_test, y_test)
 print(f'Mean Squared Error: {mse}')
 print(f'Mean Absolute Error: {mae}')
 
 # User Interface
 app = Flask(__name__)
+
 
 @app.route('/', methods=['GET', 'POST'])
 def predict_price():
@@ -104,13 +121,14 @@ def predict_price():
         bathrooms = int(request.form['bathrooms'])
 
         # Preprocess the inputs (if necessary)
-        
+
         # Make price prediction using the trained model
         price = model.predict([[size, bedrooms, bathrooms]])
 
         return render_template('result.html', price=price)
     else:
         return render_template('index.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
